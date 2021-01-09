@@ -1,4 +1,4 @@
-package variableScope;
+package variable;
 
 public class VariableScope {
 	public static void main(String[] args) {

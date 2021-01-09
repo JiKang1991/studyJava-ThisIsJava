@@ -1,4 +1,4 @@
-package variableDeclarationInitialization;
+package variable;
 
 public class VariableDeclarationInitialization {
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package classMethodAnnotate;
+package startJava;
 /*
  	작성자 : 팽수
  	작성일 : 2020. 12. 32

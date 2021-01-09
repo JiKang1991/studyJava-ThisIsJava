@@ -1,4 +1,4 @@
-package runStatementExample;
+package startJava;
 
 public class RunStatementExample {
 	public static void main(String[] args) {
