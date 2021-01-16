@@ -1,7 +1,4 @@
 package conditionalRepetitiveStatement;
-
-import java.io.IOException;
-
 /**
  * 키보드에서 1, 2를 입력했을 때 속도를 증속, 감속 시키고
  * 3을 입력하면 프로그램을 종료시키는 예제

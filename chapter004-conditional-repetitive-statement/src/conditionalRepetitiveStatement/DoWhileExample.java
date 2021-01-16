@@ -12,6 +12,7 @@ public class DoWhileExample {
 		System.out.println("메시지를 입력하세요.");
 		System.out.println("프로그램을 종료하려면 q를 입력하세요.");
 		
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);	// Scanner 객체 생성
 		String inputString;
 		
