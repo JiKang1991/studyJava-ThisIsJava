@@ -1,0 +1,157 @@
+	chapter007 inheritance
+	
+	-- Table of contents --
+		7.1 concept of inheritance
+		7.2 class inheritance
+		7.3 call super class
+		7.4 override method
+		7.5 final class and final method
+		7.6 protected access modifier
+		7.7 type conversion and polymorphism
+		7.8 abstract class
+	-----------------------
+	
+	7.1 concept of inheritance
+		- 객체 지향 프로그램에서는 부모 클래스의 멤버를 자식 클래스가 이용할 수 있다.
+		- 상속은 이미 잘 개발된 클래스를 재사용해서 새로운 클래스를 만들기 때문에 코드의 중복을 줄여준다.
+		----------------------------------------------------------
+			public class A {
+				int field1;
+				void method1() { ... }
+			}
+			
+			public classB extends A {
+				String field2;
+				void method2() { ... }
+			}
+			
+			
+			B b = new B();
+			b.field1 = 10;		// A로부터 물려받은 필드
+			b.method1();		// A로부터 물려받은 메소드
+			
+			b.field2 = "둘리";	// B가 추가한 필드
+			b.method2();		// B가 추가한 메소드
+		----------------------------------------------------------
+		- 부모 클래스에서 'private' 접근 제한을 갖는 필드와 메소드는 상속 대상에서 제외된다.
+		- 부모 클래스와 자식 클래스가 다른 패키지라면 부모 클래스의 'default' 접근 제한을 갖는
+		  필드와 메소드도 상속 대상에서 제외된다.
+		- 상속을 이용하면 클래스의 수정을 최소화 할 수 있다. ( 자식 클래스가 상속 받고있는
+		  부모 클래스의 필드와 메소드를 수정하면 자식클래스도 수정된 메소드를 상속받게 된다. )
+	
+	
+	7.2 class inheritance
+		- 자식 클래스를 선언할 때 어떤 상속 받을 부모클래스의 이름을 extends 뒤에 기술한다.
+		----------------------------------------------------------
+			class 자식클래스 extends 부모클래스 {
+				// field
+				// constructor
+				// method
+			}
+		----------------------------------------------------------
+		- 자바는 다중 상속을 허용하지 않는다. extends 뒤에 다수의 부모클래스를 선언할 수 없다.
+		참고) ClassInheritanceCellPhone.java,	ClassInheritanceDmbCellPhone.java
+			 ClassInheritanceDmbCellPhoneRuntime.java
+	
+			 
+	7.3 call super class
+		- 자식 객체를 생성하면, 부모 객체가 먼저 생성되고 자식 객체가 그 다음에 생성된다.
+		- 부모 클래스의 생성자는 자식 클래스의 생성자 맨 첫줄에서 호출된다.
+		- 생성자를 따로 명시하지 않더라도 컴파일러가 기본 생성자를 선언하여 호출한다.
+		----------------------------------------------------------
+			public ClassInheritanceDmbCellPhone() {
+				super();	// 부모 클래스의 생성자를 호출하는 키워드
+			}
+			
+			// ClassInheritanceDmbCellPhone 생성자의 super() 키워드가 호출하는 생성자
+			public ClassInheritanceCellPhone() {
+			}
+			
+			// 자식 클래스의 생성자를 선언하여 명시적으로 부모 생성자를 호출하고자 할 경우
+			자식클래스( 매개변수선언, ... ) {
+				super( 매개값, ... );
+				...
+			}
+		----------------------------------------------------------
+		- 'super( 매개값, ...)'은 매개값의 타입과 일치하는 부모 생성자를 호출한다.
+		  ( 타입이 일치하는 부모 생성자가 없을경우 컴파일 오류가 발생한다. )
+		- 'super( 매개값, ...)'을 생략하면 컴파일러에 의해 'super()'가 자동적으로 추가되므로,
+		  부모의 기본 생성자가 존재해야 한다.
+		- 부모 클래스에 기본 생성자가 없는 경우 자식 생성자에서 반드시 부모 생성자 호출을 위해
+		  'super( 매개값, ...)'을 명시적으로 호출해야 한다.
+		- 'super( 매개값, ...)'는 반드시 자식 생성자의 첫줄에 위치해야 한다.
+		참고) CallSuperClassPeople.java,		CallSuperClassStudent.java
+			 CallSuperClassStudentRu
+	
+	
+	7.4	Override Method
+	7.4.1 Override Method(@Override)
+		- 부모 클래스에 선언되어있는 메소드가 자식 클래스에서 사용하기에 적합하지 않을 때
+		  자식 클래스에서 재정의하여 사용하는 것이다.
+		- 오버라이딩 된 부모 객체의 메소드는 숨겨진다.
+		  ( 자식 객체에서 메소드를 호출하면 오버라이딩 된 자식 메소드가 호출된다. )
+		- 메소드 오버라이딩 규칙
+			(1) 부모의 메소드와 동일한 시그너처(리턴타입, 메소드 이름, 매개 변수 리스트)를 가져야 한다. 
+			(2) 접근 제한을 더 강하게 오버라이딩 할 수 없다.(보다 약한 접근제한은 선언할 수 있다.)
+			(3) 새로운 예외(Exception)를 thorws할 수 없다.
+		참고) OverrideMethodCalculator.java,		OverrideMethodComputer.java
+			 OverrideMethodComputerRuntime.java
+		- 이클립스는 부모 메소드 중 하나를 선택해서 오버라이딩 메소드를 자동 생성해주는 기능이 있다.
+		  부모 메소드의 시그너처를 정확히 모를 경우 유용하다.
+		  (1) 자식 클래스에서 오버라이딩 메소드를 작성할 위치로 입력 커서를 옮긴다.
+		  (2) 'Alt + Shift + S'를 눌러 'Source' 메뉴를 열고 'Override/Implement Methods..'를 선택한다.
+		  (3) 부모 클래스에서 오버리이딩 될 메소드를 선택하고 'OK'한다.
+		  
+	7.4.2 Call Super Method
+		- 자식 클래스에서 부모 클래스의 메소드를 오버라이딩하게 되면, 부모 클래스의 메소드는 숨겨지고
+		  오버라이딩 한 자식 메소드만 사용된다.
+		- 오버라이딩 된 부모 클래스의 메소드를 호출해야 하는 상황이 발생한다면 super 키워드를 사용해서
+		  부모메서드를 호출할 수 있다.
+		- super는 부모 객체를 참조하고 있기 때문에 부모 메소드에 직접 접근할 수 있다.
+		참고) CallSuperMethodAirplane.java,	CallSuperMethodFastAirplane.java
+			 CallSuperMethodFastAirplaneRuntime.java
+			 
+			 
+	7.5 final class and final method
+		- final 키워드는 해당 선언이 최종 상태이고, 결코 수정될 수 없음을 뜻한다.
+		- final 키워드가 클래스, 필드, 메소드 선언에 사용될 경우 해석이 조금씩 달라진다.
+		- 필드에 선언이 될 경우 초기값 설정 후, 더이상 값을 변경할 수 없다는 뜻이다.
+		
+	7.5.1 상속할 수 없는 final 클래스
+		- 클래스를 선언할 때 final 키워드를 class 앞에 붙이게 되면 이 클래스는 최종적인 클래스이므로
+		  상속할 수 없는 클래스가 된다. 즉, final 클래스는 자식 클래스를 만들 수 없다.
+		  ex) public final class 클래스 { ... }
+		- String 클래스는 final 클래스로 다른 클래스들이 상속받을 수 없다.
+		참고) FinalClassMember.java,		FinalClassVIP.java
+		
+	7.5.2 오버라이딩할 수 없는 final 메소드
+		- 메소드를 선언할 때 final 키워드를 붙이게 되면 오버라이딩 할 수 없는 메소드가 된다.
+		  즉, 자식 클래스에서 재정의 할 수 없다는 것이다.
+		  ex) public final 리턴타입 메소드( [매개변수, ...] ) { ... }
+		참고) FinalMethodCar.java,		FinalMethodSportsCar.java
+	
+	7.6 protected access modifier
+		- 같은 패키지에서는 접근제한이 없지만 다른 패키지에서는 상속 받은 클래스만 접근할 수 있다.
+		참고) ProtectedA.java,	ProtectedB.java,	ProtectedC.java
+			 ProtectedD.java
+			 
+	7.7 type conversion and polymorphism
+		* 다형성 : 같은 타입이지만 실행 결과가 다양한 객체를 이용할 수 있는 성질
+		- 하나의 타입에 여러 객체를 대입함으로써 다양한 기능을 이용할 수 있도록 해준다.
+		- 다형성을 위해 자바는 부모 클래스로 타입 변환을 허용한다.
+		  즉, 부모타입에 모든 자식 객체가 대입될 수 있다.
+		- 다형성으로 인해 객체의 부품화가 가능하다.
+			ex) 자동차를 설계할 때 타이어 클래스 타입을 적용했다면 이 타이터 클래스 타입을 상속한
+				실제 타이어 객체들은 어떤 것이든 상관없이 장착(대입)이 가능하다.
+			----------------------------------------------------------
+				public class Car {
+					Tire t1 = new HankookTire();
+					Tire t2 = new KumboTire();
+				}
+			----------------------------------------------------------
+		* 타입 변환 : 데이터 타입을 다른 데이터 타입으로 변환하는 행위
+		- 클래스 타입의 변환은 상속 관계에 있는 클래스 사이에서 발행한다.
+		  (자식 타입은 부모 타입으로 자동 타입 변환이 가능하다.)
+	
+	7.7.1 Promotion(자동타입변환)
+	
