@@ -1,4 +1,4 @@
-package inhertance;
+package inheritance;
 /**
  * 매개변수에 다형성을 적용하는 예제(실행 클래스)
  * @author jikang
