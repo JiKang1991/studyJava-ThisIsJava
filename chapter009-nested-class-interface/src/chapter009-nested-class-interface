@@ -132,3 +132,22 @@
 			}
 		----------------------------------------------------------
 		참고) AboutNestedClass.A.java,	AboutNestedClass.Main.java
+		
+		
+	9.3 access constraint of nested class
+	9.3.1 access constraint at outter class and method 
+		- 멤버 클래스가 인스턴스 또는 정적으로 선언됨에 따라 바깥 클래스의 필드와 메소드에 사용 제한이 생긴다.
+		- 인스턴스 멤버 클래스는 바깥 클래스의 인스턴스 필드의 초기값이나 인스턴스 메소드에서 객체를 생성할 수 있으나,
+		  정적 필드의 초기값이나 정적 메소드에서는 객체를 생성할 수 없다.
+		- 정적 멤버 클래스는 모든 필드의 초기값이나 모든 메소드에서 객체를 생성할 수 있다.
+		참고) accessConstraintOfNestedClass.AtOutterClassMethod.java
+		
+	9.3.2 access constraint at member class
+		- 멤버 클래스가 인스턴스 또는 정적으로 선언됨에 따라 멤버 클래스 내부에서 바깥 클래스의 필드와 메소드를
+		  접근할 때에도 제한이 따른다.
+		- 인스턴스 멤버 클래스 안에선느 바깥 클래스의 모든 필드와 모든 메소드에 접근할 수 있지만,
+		  정적 멤버 클래스 안에서는 바깥 클래스의 정적 필드와 메소드에만 접근할수 있고 인스턴스 필드와 메소드에는
+		  접근할 수 없다.
+		참고) accessConstraintOfNestedClass.AtMemberClass.java
+	
+	
