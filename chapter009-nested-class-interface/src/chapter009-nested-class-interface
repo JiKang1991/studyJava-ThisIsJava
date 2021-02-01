@@ -221,7 +221,7 @@
 		- 익명 객체는 필드의 초기값이나 로컬 변수의 초기값, 매개 변수의 매개값으로 주로 대입된다.
 		- UI 이벤트 처리 객체나 스레드 객체를 간편하게 생성할 목적으로 익명 객체가 많이 활용된다.
 		
-	9.5.1 익명 자식 객체 생성
+	9.5.1 create anonymous extends object
 		- 부모 타입으로 필드나 변수를 선언하고, 자식 객체를 초기값으로 대입할 경우
 			부모 클래스를 상속한 자식 클래스 선언 -> new 연산자이용 자식 객체 생성 -> 필드나 로컬 변수에 대입
 		- 자식 클래스가 재사용 되지 않고, 오로지 해당 필드와 변수의 초기값으로만 사용할 경우
@@ -304,7 +304,76 @@
 					//field.childMethod();
 					// 익명 자식 객체에 접근하여 사용할 수 있는 멤버는 부모 타입에 선언되어있는 멤버 뿐이다.
 					field.parentMethod();
+		----------------------------------------------------------
+		참고) anonymousObjcet.inheritanceClass.Person.java
+			 anonymousObjcet.inheritanceClass.Anonymous.java
+			 anonymousObjcet.inheritanceClass.AnonymousRuntime.java
 		
+	9.5.2 create anonymous implement object
+		- 인터페이스 타입으로 필드나 변수를 선언하고, 구현 객체를 초기값으로 대입하는 경우
+			구현 클래스 선언 -> new 연산자 이용하여 구현 객체 생성 -> 필드나 로컬변수에 대입
+		- 구현 클래스가 재사용되지 않고, 오로지 해당 필드와 변수의 초기값으로만 사용하는 경우라면
+		  익명 구현 객체를 초기값으로 대입하는 것이 좋다.
+		----------------------------------------------------------
+			인터페이스 [필드|변수] = new 인터페이스() {
+				// 인터페이스에 선언된 추상 메소드의 실체 메소드 선언
+				// 필드
+				// 메소드
+			};
+			
+			인터페이스(){} : 인터페이스를 구현해서 중괄호{}와 같이 클래스를 선언하라는 뜻
+			new 연산자 : 클래스를 객체로 생성
+			- 중괄호{}에는 인터페이스에 선언된 모든 추상 메소드들의 실체 메소드를 작성해야 한다.
+			- 추가적으로 필드와 메소드를 선언할 수 있지만, 실체 메소드에서만 사용이 가능하며 외부에서는 사용하지 못한다.
+		----------------------------------------------------------
+		- 필드를 선언할 때 초기값으로 익명 구현 객체를 생성해서 대입
+		----------------------------------------------------------
+			class A {
+				// class A's field
+				RemoteControl field = new RemoteControl {
+					// RemoteControl 인터페이스의 추상 메소드에 대한 실체 메소드
+					@Override
+					void turnOn() { }
+				};
+			}
+		----------------------------------------------------------
+		- 메소드 내에서 로컬 변수를 언언할 때 초기값으로 익명 구현 객체를 생성해서 대입
+		----------------------------------------------------------
+			void method() {
+				// 로컬 변수 선언
+				RemoteControl localVar = new RemoteControl() {
+					@Override
+					void turnOn() { }
+				};
+			}
+		----------------------------------------------------------
+		- 메소드의 매개 변수가 인터페이스 타입일 경우, 메소드 호출 코드에서 익명 구현 객체를 생성해서
+		  매개값으로 대입
+		----------------------------------------------------------
+			class A {
+				void method1(RemoteControl rc) { }
+				
+				void method2() {
+					// method1() 메소드 호출
+					method1(
+						// method1()의 매개값으로 익명 구현 객체를 대입
+						new RemoteControl() {
+							@Override
+							void turnOn() { }
+						}
+					);
+				}
+			}
+		----------------------------------------------------------
+		참고) anonymousObjcet.inheritanceInterface.RemoteControl.java
+			 anonymousObjcet.inheritanceInterface.Anonymous.java
+			 anonymousObjcet.inheritanceInterface.AnonumousRuntime.java
+		
+		- UI 프로그램에서 흔히 사용되는 버튼의 클릭 이벤트 처리를 익명 구현 객체를 이용해서 처리하는 방법
+		참고) anonymousObjcet.inheritanceInterface.Button.java
+			 anonymousObjcet.inheritanceInterface.Window.java
+			 anonymousObjcet.inheritanceInterface.Main.java
+						
 		
 		
 		
