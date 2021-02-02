@@ -1,0 +1,162 @@
+	chapter011 basic-API-class
+	
+	-- Table of contents --
+		11.1 Java API document
+		11.2 java.lang and java.util package
+		11.3 Object class
+		11.4 Objects class
+		11.5 System class
+		11.6 Class class
+		11.7 Stirng class
+		11.8 StringTokenizer class
+		11.9 StringBuffer, StringBuilder class
+		11.10 regular expressions and Pattern class
+		11.11 Arrays class
+		11.12 Wrapper(포장) class
+		11.13 Math, Random class
+		11.14 Date, Calendar class
+		11.15 Format class
+		11.16 java.time package
+	-----------------------
+	
+	11.1 Java API document
+		* API(Application Programming Interface) : 라이브러리(library)라고 부르기도 하며,
+			프로그램 개발에 자주 사용되는 클래스 및 인터페이스의 모음을 말한다. 
+			ex) String class, System class
+		- API들은 <JDK 설치경로> /jre/lib/rt.jar라는 압축 파일에 저장되어있다.
+		* API document : 쉽게 API를 찾아 이용할 수 있도록 문서화한 것
+			'http://docs.oracle.com/javase/8/docs/api'
+		- 좌측 상단 프레임(패키지 전체 목록)
+		- 좌측 하단 프레임(패키지에 속하는 클래스와 인터페이스 목록)
+		- 중앙 프레임 (좌측 하단 프레임에서 선택한 클래스나 인터페이스에 대한 상세 설명)
+			(1) 상단 부분 : 클래스가 포함된 패키지 정보, 상속정보, 인터페이스 구현 정보
+			(2) 중앙 부분 : 클래스의 설명과 사용방법 요약
+			(3) 하단 부분 : 필드, 생성자, 메소드 목록
+		- 이클립스에서는 자바 에디터에서 클래스를 마우스로 선택한 다음 'F1'키를 누르면
+		  자동으로 API 도큐먼트를 보여주는 Help 뷰가 실행된다.
+		  
+	11.2 java.lang and java.util package
+	11.2.1 java.lang package
+		- java.lang package는 자바 프로그램의 기본적인 클래스를 담고 있는 패키지이다.
+		- java.lang package에 있는 클래스와 인터페이스는 import 없이 사용할 수 있다.
+			ex) String, System
+		----------------------------------------------------------
+		클래스								용도
+		Object								- 자바 클래스 최상위 클래스로 사용
+			
+		System								- 표준 입력 장치(키보드)로 부터 데이터를 입력받을때 사용
+											- 표준 출력 장치(모니터)로 출력하기 위해 사용
+											- 자바 가상 기계를 종료시킬 때 사용
+											- 쓰레기 수집기를 실행 요청할 때 사용
+		
+		Class								- 클래스를 메모리로 로딩할 때 사용
+		
+		String								- 문자열을 저장하고 여러가지 정보를 얻을 때 사용
+		
+		StringBuffer, StringBuilder			- 문자열을 저장하고 내부 문자열을 조작할 때 사용
+		
+		Math								- 수학 함수를 이용할 때 사용
+		
+		Wrapper		Byte, Short, Character 	- 기본 타입의 데이터를 갖는 객체를 만들 때 사용
+					Integer, Float, Double	- 문자열을 기본 타입으로 변환할 때 사용
+					Boolean, Long			- 입력값 검사에 사용
+		----------------------------------------------------------
+		
+	11.2.2 java.util package
+		- java.util package는 자바 프로그램 개발에 조미료 같은 역할을 하는 클래스를 담고 있다.
+		- java.util package는 컬렉션 클래스들이 대부분을 차지하고 있다.
+		----------------------------------------------------------
+			클래스				용도
+			Arrays				- 배열을 조작(비교, 복사, 정렬, 찾기)할 때 사용
+		
+			Calendar			- 운영체제의 날짜와 시간을 얻을 때 사용
+		
+			Date				- 날짜와 시간 정보를 저장하는 클래스
+		
+			Objects				- 객체 비교, 널(null) 여부 등을 조사할 때 사용
+		
+			StringTokenizer		- 특정 문자로 구분된 문자열을 뽑아낼 때 사용
+		
+			Random				- 난수를 얻을 때 사용
+		----------------------------------------------------------
+	
+	
+	11.3 Object class
+		- 클래스를 선언할 때 extends 키워드로 다른 클래스를 상속하지 않으면 암시적으로
+		  'java.lang.Objcet' 클래스를 상속하게 된다.
+		- 자바의 모든 클래스는 Object 클래스의 자식이거나 자손 클래스이다.
+		  Object는 자바의 최상위 부모 클래스에 해당한다.
+		- Objcet 클래스는 필드가 없고, 메소드들로 구성되어있다. 
+		  이 메소드들은 모든 클래스가 Objcet를 상속하기 때문에 모든 클래스에서 사용이 가능하다.
+	
+	11.3.1 equals()
+		- 'public boolean equals(Object obj) { ... }'
+		- equals() 메소드의 매개 타입은 Object인데, 이것은 모든 객체가 매개값으로 대입될 수 있음을 말한다.
+		- Object가 최상위 타입이므로 모든 객체는 Object 타입으로 자동 타입 변환될 수 있기 때문이다.
+		- equals() 메소드는 비교 연산자인 '=='과 동일한 결과를 리턴한다.
+		  두 객체가 동일한 객체라면 true를 리턴하고 그렇지 않으면 false를 리턴한다.
+		----------------------------------------------------------
+			Object obj1 = new Object();
+			Object obj2 = new Object();
+			
+			// 아래 두 식의 결과는 동일하다
+			boolean result = obj1.equals(obj2);
+			boolean result = (obj1 == obj2);
+		----------------------------------------------------------
+		- 자바에서는 두 객체를 동등 비교할 때 equals() 메소드를 흔히 사용한다.
+		- equals() 메소드는 두 객체를 비교해서 논리적으로 동등하면 true를 리턴하고, 그렇지 않으면 false를 리턴한다.
+		- 논리적으로 동등하다는 것은 같은 객체이건 다른 객체이건 상관없이 객체가 저장하고 있는 데이터가 동일함을 뜻한다.
+		- 예를 들어 String 객체의 equals() 메소드는 String 객체의 번지를 비교하는 것이 아니고,
+		  문자열이 동일한지 조사해서 같아면 true를 리턴하고, 그렇지 않다면 false를 리턴한다.
+		- 이것이 가능한 이유는 String 클래스가 Object의 equals() 메소드를 재정의(오버라이딩)해서 번지 비교가 아닌
+		  문자열 비교로 변경했기 때문이다.
+		- Object의 equal() 메소드는 직접 사용되지 않고 하위 클래스에서 재정의하여 논리적으로 동등 비교할 대 이용된다.
+		- 예를 들어 Member 객체는 다르지만 id 필드값이 같으면 논리적으로 동등한 객체로 취급하고 싶을 경우
+		  Object의 equals() 메소드를 재정의 해서 id 필드 값이 같음을 비교하면 된다.
+		- equals() 메소드를 재정의 할 때에는 매개값(비교 객체)이 기준 객체와 동일한 타입의 객체인지 먼저 확인해야 한다.
+		- Objcet 타입의 매개 변수는 모든 객체가 배개값으로 제공될 수 있기 때문에 
+		  instanceof 연산자로 기준 객체와 동일한 타입인지 제일 먼저 확인해야 한다.
+		- 비교 객체가 다른 타입이라면 equals() 메소드는 false를 리턴해야 한다.
+		- 비교 객체가 동일한 타입이라면 기준 객체 타입으로 강제 타입 변환해서 필드값이 동일한지 검사하면 된다.
+		참고) objectClass.EqualsMember.java
+			 objectClass.EqualsMemberExample.java
+			 
+	11.3.2 hashCode()
+		- 객체 해시코드란 객체를 식별할 하나의 정수값을 말한다.
+		- Object의 hashCode() 메소드는 객체의 메모리 번지를 이용해서 해시코드를 만들어 리턴하기 때문에
+		  객체마다 다른 값을 가지고 있다.
+		- 논리적 동등 비교 시 hashCode()를 오버라이딩할 필요성이 있다.
+		- 컬렉션 프레임워크에서 HashSet, HashMap, HashTable은 hashCode() 메소드를 실행해서
+		  리턴된 해시코드 값이 같은지를 본다. 해시 코드 값이 다르면 다른 객체로 판단하고, 해시코드 값이 같으면
+		  equals() 메소드로 다시 비교한다. 그렇기 때문에 hashCode() 메소드가 true가 나와도
+		  equals()의 리턴값이 다르면 다른 객체가 된다.
+		참고) objectClass.HashCodeKey.java
+			 objectClass.HashCodeKeyExample.java
+			 objectClass.HashCodeOverridingKey.java
+			 objectClass.HashCodeOverridingKeyExample.java
+			 objectClass.HashCodeOverridingMember.java
+		- 두 개의 객체가 동일한 클래스로 만들어지고 동일한 필드값을 가지고 있다고 하더라도 객체를 생성할때 마다
+		  다른 해시코드가 리턴되기 때문에 논리적 동등 비교시 컬렉션 프레임 워크의 HashSet, HashMap, HashTable은
+		  두 개의 객체를 서로 다른 객체로 인식한다. 이러한 문제를 해소하기 위해 hashCode()메소드를 재정의하여
+		  두 개의 객체가 같은 hashCode 값을 리턴하도록 만들면 두 개의 객체는 동일한 객체가 된다.
+		  
+	11.3.3 toString()
+		- Object 클래스의 toString() 메소드는 객체의 문자 정보를 리턴한다.
+		- 객체의 문자 정보란 객체를 문자열로 표현한 값을 말한다.
+		- 기본적으로 Object 클래스의 toString() 메소드는 "클래스명@16진수해시코드"로
+		  구성된 문자 정보를 리턴한다.
+		----------------------------------------------------------
+			Object obj = new Object();
+			System.out.println(obj.toString());
+			
+			실행결과 예시 : 'java.lang.Object@de6ced'
+		----------------------------------------------------------
+		- Object의 toString() 메소드의 리턴값은 자바 애플리케이션에서는 별 값어치가 없는 정보이므로
+		  Object의 하위 클래스는 toString() 메소드를 재정의(오버라이딩)하여 간결하고 유익한 정보를 리턴하도록 되어있다.
+		- 예를 들어 java.util 패키지의 Date 클래스는 toString() 메소드를 재정의하여
+		  현재 시스템의 날짜와 시간 정보를 리턴한다.
+		- String 클래스는 toString() 메소드를 오버라이딩하여 저장하고 있는 문자열을 리턴한다.
+		참고) objectClass.ToStringExample.java
+			 objectClass.ToStringSmartPhone.java
+			 objectClass.ToStringSmartPhoneExample.java
+		
