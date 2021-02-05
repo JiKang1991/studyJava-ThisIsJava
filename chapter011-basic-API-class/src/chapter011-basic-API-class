@@ -378,7 +378,53 @@
 		   성능 측면에서 좋지 않다.
 		 - 메모리가 충분하다면 굳이 Garbage Collector를 실행할 필요가 없다.
 		 참고) systemClass.GcExample.java
+		 
+	11.5.3 currentTimeMillis(), nanoTime()
+		- currentTimeMillis() 메소드와 nanoTime() 메소드는 컴퓨터의 시계로부터 현재 시간을 읽어서
+		  밀리세컨드(1/1000초) 단위와 나노세컨드(1/10^9초)단위의 long 값을 리턴한다.
+		  	ex) long time = System.currentTimeMillis();
+		  		long time = System.nanoTime();
+		- 리턴값은 주로 프로그램의 실행 소요 시간 측정에 사용된다.
+		- 프로그램 시작시 시각을 읽고, 프로그램이 끝날 대 시각을 읽어서 차이를 구하면
+		  프로그램 실행 소요 시간이 나온다.
+		참고) systemClass.SystemTimeExample.java
 	
-	
-	
+	11.5.4 getProperty()
+		- 시스템 프로퍼티(System Property)는 JVM이 시작할 때 자동 설정되는 시스템의 속성값을 말한다.
+		- 예를 들어 운영체제의 종류 및 자바 프로그램을 실행시킨 사용자 아이디, JVM의 버전,
+		  운영체제에서 사용되는 파일 경로 구분자 등이 여기에 속한다.
+		- 시스템 프로퍼티는 키(key)와 값(value)으로 구성되어있다.
+		----------------------------------------------------------
+			키(key)			설명								값(value)
+			java.version	자바의 버전						1.8.0_20
+			java.home		사용하는 JRE의 파일 경로				<jdk 설치경로>\jre
+			os.name			Operating system name			Windows 10
+			file.separator	File separator("\" on UNIX)		\
+			user.name		사용자의 이름						사용자 계정
+			user.home		사용자의 홈 디렉토리					C:\Users\사용자 계정
+			user.dir		사용자가 현재 작업 중인 디렉토리 경로	다양
+		----------------------------------------------------------
+		- 시스템 프로퍼티를 읽어오기 위해서는 System.getProperty() 메소드를 이용하면 된다.
+		  이 메소드는 시스템 프로퍼티의 키 이름을 매개값으로 받고, 해당 키에 대한 값을 물자열로 리턴한다.
+			ex) String value = System.getProperty(String key);
+		참고) systemClass.GetPropertyExample.java
+		
+		- System.getProperties() 메소드는 모든(키, 값) 쌍을 저장하고 있는 Properties 객체를 리턴한다.
+		  이 객체의 keySet() 메소드를 호출하면 키만으로 구성된 Set 객체를 얻을 수 있다.
+		  for문은 Set객체로부터 키를 하나씩 얻어내여 문자열로 변환한 다음, System.getProperty() 메소드로
+		  값을 얻어 키와 값을 모두 출력한다.
+		  
+	11.5.5 getenv()
+		- 대부분의 운영체제는 실행되는 프로그램들에게 유요한 정보를 제공할 목적으로
+		  환경 변수(Environment Variable)를 제공한다.
+		- 환경 변수는 프로그램 상의 변수가 아니라 운영체제에서 이름(Name)과 값(Value)으로 관리되는 문자열 정보다.
+		- 환경 변수는 운영체제가 설치될 때 기본적인 내용이 설정되고, 사용자가 직접 설정하거나
+		  응용프로그램이 설치될 때 자동적으로 추가 설정 되기도 한다.
+		- 사용자가 환경 변수를 설정하는 방법은 운영체제마다 조금씩 다르며, Windows 계열의 운영체제에서는
+		  [ 제어판 -> 시스템 및 보안 -> 시스템 -> 고급시스템 설정 -> 시스템 속성 -> 고급
+		   -> 환경 변수 -> 시스템 변수 (새로 만들기, 편집, 삭제) ] 를 이용해서 설정한다.
+		- 자바 프로그램에서는 환경 변수의 값이 필요할 경우 System.getenv() 메소드를 사용한다.
+		  매개값으로 환경 변수 이름을 주면 값을 리턴한다.
+			ex) String value = System.getenv(String name);
+		참고) systemClass.SystemEnvExample.java
 	 	  
