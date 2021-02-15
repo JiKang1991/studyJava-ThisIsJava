@@ -1262,7 +1262,7 @@
 					System.out.println("차이(nanos) : " + instant1.until(instant2, chronoUnit.NANOS));
 			참고) javaTimePackage.DateTimeCreateExample.java
 			
-	11.16.2 날짜와 시간에 대한 정보 얻기
+	11.16.2 get information of date and time
 		- LocalDate와 LocalTime은 프로그램에서 날짜와 시간 정보를 이용할 수 있도록 메소드를 제공하고 있다.
 		----------------------------------------------------------
 			클래스		리턴 타입		메소드(매개 변수)		설명
@@ -1286,4 +1286,170 @@
 			클래스			리턴타입		메소드(매개 변수)	설명
 			ZonedDateTime	ZoneId		getzone()		존아이디를 리턴(예 : Asia/Seoul)
 							ZoneOffset	getOffset()		존오프셋(시차)을 리턴
-						
+		----------------------------------------------------------
+		참고) javaTimePackage.DateTimeInfoExample.java
+		
+	11.16.3 operation of date and time
+		- 날짜와 시간 클래스들은 날짜와 시간을 조작하는 메소드와 상대 날짜를 리턴하는 메소드들을 가지고있다.
+		
+		1) minus and plus
+			----------------------------------------------------------
+				클래스			리턴타입			메소드(매개변수)		설명
+				LocalDate		LocalDate		minusYears(long)	년 빼기
+				LocalDateTime	LocalDateTime	minusMonth(long)	달 빼기
+				ZonedDateTime	ZonedDateTime	minusWeeks(long)	일 빼기
+												plusYears(long)		년 더하기
+												plusMonths(long)	달 더하기			
+												plusWeeks(long)		주 더하기
+												plusDays(long)		일 더하기
+				LocalTime		LocalTime		minusHours(long)	시간 빼기
+				LocalDateTime	LocalDateTime	minusMinutes(long)	분 빼기
+				ZonedDateTime	ZonedDateTime	minusSeconds(long)	초 빼기
+												minusNanos(long)	나노초 빼기
+												plusHours(long)		시간 더하기
+												plusMinutes(long)	분 더하기
+												plusSeconds(long)	초 더하기
+												plusNanos(long)		나노초 더하기
+			----------------------------------------------------------
+			- 각 메소드들은 수정된 LocalDate, LocalTime, LocalDateTime, ZonedDateTime을 리턴하기 때문에
+			  도트(.)연산자로 연결해서 순차적으로 호출할 수 있다.
+			참고) javaTimePackage.DateTimeOperationExample.java
+		
+		2) change
+			----------------------------------------------------------
+				클래스			리턴 타입			메소드(매개 변수)					설명	
+				LocalDate		LocalDate		withYear(int)					년 변경
+				LocalDateTime	LocalDateTime	withMonth(int)					월 변경
+				ZonedDateTime	ZonedDateTime	withDayOfMonth(int)				월의 일 변경
+												withDayOfYear(int)				년의 일 변경
+												with(TemporalAdjuster adjuster)	상대 변경
+				LocalTime		LocalTime		withHour(int)					시간 변경
+				LocalDateTime	LocalDateTime	withMinute(int)					분 변경
+				ZonedDateTime	ZonedDateTime	withSecond(int)					초 변경
+												whitNano(int)					나노초 변경
+			----------------------------------------------------------
+			- with() 메소드는 현재 날짜를 기준으로 해의 첫 번째 일 또는 마지막 일, 달의 첫번째 일 또는 마지막 일,
+			  달의 첫번째 요일, 지난 요일 및 돌아오는 요일 등 상대적인 날짜를 리턴한다.
+			----------------------------------------------------------
+				리턴 타입				메소드(매개 변수)						설명
+				TemporalAdjuster 	firstDayOfYear()					이번 해의 첫 번째 일
+									lastDayOfYear()						이번 해의 마지막 일
+									firstDayOfNestYear()				다음 해의 첫 번째 일
+									firstDayOfMonth()					이번 달의 첫 번째 일
+									lastDayOfMonth()					이번 달의 마지막 일
+									firstDayOfNextMonth()				다음 달의 첫 번째 일
+									firstInMonth(DayOfWeek dayOfWeek)	이번 달의 첫 번째 요일
+									lastInMonth(DayOfWeek dayOfWeek)	이번 달의 마지막 요일
+									next(DayOfWeek dayOfWeek)			돌아오는 요일
+									nextOrSame(DayOfWeek dayOfWeek)		돌아오는 요일(오늘 포함)
+									previous(DayOfWeek dayOfWeek)		지난 요일
+									previousOrSame(DayOfWeek dayOfWeek)	지난 요일(오늘 포함)
+			----------------------------------------------------------
+			참고) javaTimePackage.DateTimeChangeExample.java
+			
+	11.16.4 to compare date and time
+		----------------------------------------------------------
+			클래스				리턴 타입		메소드(매개 변수)							설명
+			LocalDate			boolean		isAfter(ChronoLocalDate other)			이후 날짜인지 비교
+			LocalDateTime					isBefore(ChronoLocalDate other)			이전 날짜인지 비교
+											isEqual(ChronoLocalDate other)			동일 날짜인지 비교
+			LocalTime			boolean		isAfter(LocalTime other)				이후 시잔인지 비교
+											isBefore(LocalTime other)				이전 시간인지 비교
+			LocalDate			Period		util(ChronoLocalDate endDateExclusive)	날짜 차이
+			LocalDate			long		util(									시간 차이
+			LocalTime						 	Temporal endExclusive,
+			LocalDateTime						TemporalUnit unit
+											)
+			Period				Period		between(								날짜 차이
+												LocalDate startDateInclusive,
+												LocalDate endDateExclusive
+											)
+			Duration			Duration	between(								시간 차이
+												Temporal startInclusive,
+												Temporal endExclusive
+											)
+			ChronoUnit.YEARS	long		between(								전체 년 차이
+			ChronoUnit.MONTHS					Temporal temporal1Inclusive,		전체 달 차이
+			ChronoUnit.WEEKS					Temporal temporal2Exclusive			전체 주 차이
+			ChronoUnit.DAYS					)										전체 일 차이
+			ChronoUnit.HOURS														전체 시간 차이
+			ChronoUnit.SECONDS														전체 초 차이
+			ChronoUnit.MILLIS														전체 밀리초 차이
+			ChronoUnit.NANOS														전체 나노초 차이
+		----------------------------------------------------------
+		- Period와 Duration은 날짜와 시간의 양을 나타내는 클래스들이다.
+		- Period는 년, 달, 일의 양을 나타내는 클래스이다.
+		- Duration은 시, 분, 초, 나노초의 양을 나타내는 클래스이다.
+		- D-day나 D-time을 구할 대 사용될 수 있다.
+		----------------------------------------------------------
+			클래스		리턴타입	메소드(매개 변수)	설명
+			Period		int		getYears()		년의 차이
+						int		getMonth()		달의 차이
+						int		getDays()		일의 차이
+			Duration	int		getSeconds()	초의 차이
+						int		getNano()		나노초의 차이
+		----------------------------------------------------------
+		- between() 메소드는 Period와 Duration 클래스, ChronoUnit 열거 타입에도 있다.
+		- Period와 Duration의 between()은 년, 달, 일, 초의 단순 차이를 리턴한다.
+		- ChronoUnit 열거 타입의 between()은 전체 시간을 기준으로 차이를 리턴한다.
+		참고) javaTimePackage.DateTimeCompareExample.java
+		
+	11.16.5 parsing and formatting
+		- 날짜와 시간 클래스는 문자열을 파싱(parsing)해서 날짜와 시간을 생성하는 메소드와
+		  이와 반대로 날짜와 시간을 포맷팅(Formmattion)된 문자열로 변환하는 메소드를 제공하고 있다.
+		
+		1) Parsing Method
+		----------------------------------------------------------
+			클래스			리턴 타입			메소드
+			LocalDate		LocalDate		parse(CharSequence)
+			LocalTime		LocalTime		parse(CharSequence, DateTimeFormatter)
+			LocalDateTime	LocalDateTime
+			ZonedDateTime	ZondeDateTime
+		----------------------------------------------------------
+		- LocalDate의 parse(CharSequence) 메소드는 기본적으로 ISO_LOCAL_DATE 포맷터를 사용해서
+		  문자열을 파싱한다. ISO_LOCAL_DATE는 DateTimeFormatter의 상수로 정의되어있는데,
+		  "2024-05-04" 형식의 포맷터이다.
+			ex) LocalDate localDate = LocalDate.parse("2024-05-21");
+		- 만약 다른 포맷터를 이용해서 문자열을 파싱하고 싶다면 parse(CharSequence, DateTimeFormatter)메소드를
+		  이용할 수 있다.
+		- DateTimeFormatter는 ofPattern() 메소드로 정의할 수 있다.
+			ex) DateTimeFormatter formatter = DateTimeFofPattern("yyyy.MM.dd");
+				LocalDate localDate = LocalDate.parse("2024.05.21", formatter);
+		- ofPattern() 메소드의 매개값으로 사용되는 패턴 기호에 대한 설명은 API 도큐먼트의
+		  java.time.format.DateTimeFormatter 클래스 설명 부분에서 참조할 수 있다.
+		----------------------------------------------------------
+			상수						설명								예
+			BASIC_ISO_DATE 			Basic ISO date					"20111203"
+			ISO_LOCAL_DATE			ISO Local Date					"2011-12-03"
+			ISO_OFFSET_DATE			ISO Date with offset			"2011-12-03+01:00"
+			ISO_DATE				ISO Date with or without offset	"2011-12-03+01:00"; "2011-12-03"
+			ISO_LOCAL_TIME			Time without offset				"10:15:30"
+			ISO_OFFSET_TIME			Time with offset				"10:15:30+01:00"
+			ISO_TIME				Time with or without offset		"10:15:30+01:00"; "10:15:30"
+			ISO_LOCAL_DATE_TIME		ISO Local Date and Time			"2011-12-03T10:15:30"
+			ISO_OFFSET_DATE_TIME	Date Time with Offset			"2011-12-03T10:15:30+01:00"
+			ISO_ZONED_DATE_TIME		Zoned Date Time					"2011-12-03T10:15:30+01:00
+																	 [Europe/Paris]"
+			ISO_DATE_TIME			Date and time with ZoneId		"2011-12-03T10:15:30+01:00
+																	 [Europe/Paris]"
+			ISO_ORDINAL_DATE		Year and day of year			"2012-337"
+			ISO_WEEK_DATE			Year and Week					"2012-W48-6"
+			ISO_INSTANT				Date and Time of an Instant		"2011-12-03T10:15:30Z"
+			RFC_1123_DATE_TIME		RFC 1123 / RFC 822				"Tue, 3 Jun 2008 11:05:30 GMT"
+		----------------------------------------------------------
+		참고) javaTimePackage.DateTimeParsingExample.java
+		
+		2) Formatting Method
+		----------------------------------------------------------
+			클래스			리턴타입			메소드(매개 변수)
+			LocalDate		String			format(DateTimeFormatter formatter)
+			LocalTime
+			LocalDateTime
+			ZonedDateTime
+		----------------------------------------------------------
+		- format()의 매개값은 DateTimeFormatter인데 해당 형식대로 문자열을 리턴한다.
+			ex) LocalDateTime now = LoclaDateTime.now();
+				DateTimeFormatter dateTimeFormatter =
+					DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h시 m분");
+				String nowString = now.format(dateTimeFormatter);
+		참고) javaTimePackage.DateTimeFormatExample.java
