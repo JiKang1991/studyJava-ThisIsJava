@@ -237,3 +237,88 @@
 		참고) threadState.CheckStatePrintThread.java
 			 threadState.CheckTargetThread.java
 			 threadState.CheckExample.java	
+			 
+	
+	12.6 control of thread state
+		- 실행 중인 스레드의 상태를 변경하는 것을 스레드 상태 제어라고 한다.
+		----------------------------------------------------------
+			 메소드					설명
+			 interrupt()			일시 정지 상태의 스레드에서 InterruptedException 예외를 발생시켜,
+			 						예외 처리 코드(catch)에서 실행 대기 상태로 가거나 종료 상태로 갈 수 있도록한다.
+			 
+			 notify()				동기화 블록 내에서 wait() 메소드에 의해 일시 정지 상대에 있는 스레드를
+			 notifyAll()			실행 대기 상태로 만든다.
+			 
+			 resume()				suspend() 메소드에 의해 일시 정지 상태에 있는 스레드를 실행 대기 상태로 만든다.
+			 						- Deprecated( 대신 notify(), notifyAll() 사용 )
+			 
+			 sleep(long millis)		주어진 시간 동안 스레드를 일시 정지 상태로 만든다. 주어진 시간이 지나면 자동적으로
+			 sleep(long millis,		실행 대기 상태가 된다.
+			  int nanos)
+			 
+			 join()					join() 메소드를 호출한 스레드는 일시 정지 상태가 된다. 실행 대기 상태로 가려면,
+			 join(long millis)		join() 메소드를 멤버로 가지는 스레드가 종료되거나, 매개값으로 주어진 시간이 지나야 한다.
+			 join(long millis,
+			  int nanos)
+			  
+			 wait()					동기화(synchronized) 블록 내에서 스레드를 일시 정지 상태로 만든다.
+			 wait(long millis)		매개값으로 주어진 시간이 지나면 자동적으로 실행 대기 상태가 된다. 시간이 주어지지 않으면
+			 wait(long millis,		notify(), notifyAll() 메소드에 의해 실행 대기 상태로 갈 수 있다.
+			  int nanos)
+			  
+			 suspend()				스레드를 실시 정지 상태로 만든다. resume() 메소드를 호출하면 다시
+			 						실행 대기 상태가 된다. - Deprecated( 대신 wait() 사용 )
+			 
+			 yield()				실행 중에 우선순위가 동일한 다른 스레드에게 실행을 양보하고 실행 대기 상태가 된다.
+			 
+			 stop()					스레드를 즉시 종료시킨다.	- Deprecated
+		----------------------------------------------------------
+		- wait(), notify(), notifyAll() 은 Object 클래스의 메소드이다.
+		- 나머지 메소드는 모두 Thread 클래스의 메소드들이다.
+		
+	12.6.1 sleep() - 주어진 시간동안 일시 정지
+		- Thread.sleep() 메소드를 호출한 스레드는 주어진 시간동안 일시정지 상태가 되고,
+		  다시 실행 대기 상태로 돌아간다.
+		----------------------------------------------------------
+			try {
+				Thread.sleep(1000);
+			} else (Exception e) {
+				// interrupt() 메소드가 호출되면 실행
+			}
+		----------------------------------------------------------
+		- 매개값에는 얼마 동안 일시 정지 상태로 있을 것인지, 밀리세컨드(1/1000) 단위로 시잔을 주면 된다.
+		- 1000이라는 값을 주면 스레드는 1초가 경과할 동안 일시 정지 상태로 있게 된다.
+		- 일시 정지 상태에서 주어진 시간이 되기 전에 interrupt() 메소드가 호출되면 InterruptedException이
+		  발생하기 때문에 예외 처리가 필요하다.
+		참고) controlState.SleepExample.java
+		
+	12.6.2 yield() - 다른 스레드에게 실행 양보
+		- 스레드가 처리하는 작업은 반복적인 실행을 위히 for문이나 while문을 포함하는 경우가 많다.
+		- 가끔은 이 반복문들이 무의미한 반복을 하는 경우가 있다.
+		----------------------------------------------------------
+			public void run() {
+				while(true) {
+					if(work) {
+						System.out.println("ThreadA 작업 내용");
+					}
+				}
+			}
+		----------------------------------------------------------
+		- 스레드가 시작되어 run() 메소드를 실행하면 while(true) { } 블록을 무한 반복 실행한다.
+		  만약 work의 값이 false라면 그리고 work의 값이 false에서 true로 변경되는 시점이 불명확하다면,
+		  while문은 어떠한 실행문도 실행하지 않고 무의미한 반복을 한다.
+		  이것보다는 다른 스레드에게 실행을 양보하고 자신은 실행 대기로 가는 것이 전체 프로그램 성능에 도움이 된다.
+		* yield() : 메소드를 호출한 스레드는 실행 대개 상태로 돌아가고 동일한 우선순위 똔느 높은 우선순위를 갖는
+					다른 스레드가 실행 기회를 가질 수 있도록 한다.
+		----------------------------------------------------------
+			public void run() {
+				while(true) {
+					if(work) {
+						System.out.println("ThreadA 작업 내용");
+					} else {
+						Thread.yield();
+					}
+				}
+			}
+		----------------------------------------------------------
+		참고) controlState.YieldExample.java							
