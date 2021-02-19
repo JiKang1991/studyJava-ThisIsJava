@@ -321,4 +321,14 @@
 				}
 			}
 		----------------------------------------------------------
-		참고) controlState.YieldExample.java							
+		참고) controlState.YieldExample.java
+			 controlState.YieldThreadA.java
+			 controlState.YieldThreadB.java
+			 
+	12.6.3 join() - 다른 스레드의 종료를 기다림
+		- 스레드는 다른 스레드와 독립적으로 실행하는 것이 기본이지만 다른 스레드가 종료될 때까지 가다렸다가
+		  실행해야 하는 경우가 발생할 수도 있다.
+		- 예를 들어 A스레드에서 B스레드의 join() 메소드를 호출하면 B스레드가 종료될 때 까지 A스레드는 일시정지
+		  상태가 된다.
+		참고) controlState.JoinSumThread.java
+			 controlState.JoinExample.java 							
