@@ -412,4 +412,46 @@
 		- isDaemon() 메소드는 현재 실행 중인 스레드가 데몬스레드일 경우 true를 리턴한다.
 		참고) studyDaemonThread.AutoThread.java
 			 studyDaemonThread.Example.java
-				 
+		
+			 
+	12.8 thread group
+		- 스레드 그룹은 관련된 스레드를 묶어서 관리할 목적으로 이용된다.
+		  JVM이 실행되면 system 스레드 그룹을 만들고, JVM운영에 필요한 스레드들을 생성해서
+		  system 스레드 그룹에 포함시킨다. system의 하위 스레드 그룹으로 main을 만들고
+		  메인 스레드를 main 스레드 그룹에 포함시킨다.
+		- 스레드는 반드시 하나의 스레드 그룹에 포함되는데, 명시적으로 스레드 그룹에 포함시키지 않으면
+		  기본적으로 자신을 생성한 스레드와 같은 스레드 그룹에 속하게 된다. 
+		  
+	12.8.1 스레드 그룹 이름 얻기
+		- 현재 스레드가 속한 스레드 그룹의 이름을 얻을 수 있다.
+		---------------------------------------------------------- 
+			ThreadGroup group = Thread.currentThread().getThreadGroup();
+			String groupName = group.getName();
+		----------------------------------------------------------
+		- getAllStackTraces()는 Thread의 정적 메소드로 프로세스 내에서 실행하는 모든 스레드에 대한 정보를
+		  얻을 수 있다. Map 타입의 객체를 리턴하며, 키는 스레드 객체이고 값은 스레드의 상태 기록들을 갖고있는
+		  StackTraceElement[] 배열이다.
+		  	ex) Map<Thread, StackTraceElement[]> map = Thread.getAllStackTrace();
+		참고) studyThreadGroup.ThreadInfoExample.java
+		
+	12.8.2 스레드 그룹 생성
+		- ThreadGroup(String name), ThreadGroup(ThreadGroup parent, String name) 생성자를 이용해서
+		  명시적으로 스레드 그룹을 만들 수 있다. ThreadGroup 이름만 주거나, 부모 ThreadGroup과 이름을 매개값으로
+		  줄 수 있다.
+		----------------------------------------------------------
+			ThreadGroup tg = new ThreadGroup(String name);
+			ThreadGroup tg = new ThreadGroup(ThreadGroup parent, String name);
+		----------------------------------------------------------
+		- 부모(parent) 스레드 그룹을 지정하지 않으면 현재 스레드가 속한 그룹의 하위 그룹으로 생성된다.
+		- Thread 객체를 생성할 때 생성자 매개값으로 스레드 그룹을 지정하면 새로운 스레드 그룹을 생성하여
+		  새로운 스레드를 해당 그룹에 포함시킬 수 있다.
+		----------------------------------------------------------
+			Thread t = new Thread(ThreadGroup group, Runnable target);
+			Thread t = new Thread(ThreadGroup group, Runnable target, String name);
+			Thread t = new Thread(ThreadGroup group, Runnable target, String name, long stackSize);
+			Thread t = new Thread(ThreadGroup group, String name);
+		----------------------------------------------------------
+		- Runnable 타입의 target은 Runnable 구현 객체를 의미한다.
+		- String 타입의 name은 스레드의 이름이다.
+		- long 타입의 stackSize는 JVM이 이 스레드에 할당할 stack 크기를 의미한다.
+		  	 
