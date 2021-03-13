@@ -1,0 +1,42 @@
+	chapter013 generic
+	
+	-- Table of contents --
+		13.1 about generic
+		13.2 generic type(class<T>, interface<T>)
+		13.3 multi type parameter(class<K,V,...>, interface<K,V,...>)
+		13.4 generic method(<T,R> R method(T t))
+		13.5 limited type parameter(<T extends the highest type>) 
+		13.6 wild card type(<?>, <? extends ...>, <? super ...>)
+		13.7 generic type inheritance and realization
+	-----------------------
+	
+	13.1 about generic
+		- Java 5부터 제네릭 타입을 이용해서 잘못된 타입이 사용될 수 있는 문제를 컴파일 과정에서 제거할 수 있게 되었다.
+		- 제네릭은 컬랙션, 람다식, 스트림, NIO에서 사용된다.
+		- 제네릭은 클래스와 인터페이스, 메소드를 정의할 때 타입을 파라미터로 사용할 수 있도록 한다.
+	
+		1) 컴파일 시 강한 타입 체크를 할 수 있다.
+			- 자바 컴파일러는 코드에서 잘못 사용된 타입 때문에 발생하는 문제점을 제거하기 위해 제네릭 코드에 대해
+			  강한 타입 체크를 한다.
+			- 에러를 사전에 방지할 수 있다.
+			
+		2) 타입 변환(casting)을 제거한다.
+			- 비 제네릭 코드는 불필요한 타입 변환을 하기 때문에 프로그램 성능에 악영향을 미친다.
+			----------------------------------------------------------
+				List list = new ArrayList();
+				list.add("Hello");						// 문자열 요소를 List에 저장
+				String str = (String)list.get(0);		// 타입 변환이 필수
+			----------------------------------------------------------
+			----------------------------------------------------------
+				List<String> list = new ArrayList<String>();
+				list.add("Hello");						// 문자열 요소를 List에 저장
+				String str = list.get(0);				// 타입 변환이 필요하지 않음. (프로그램 성능 향상)
+			----------------------------------------------------------
+	
+	
+	13.2 generic type(class<T>, interface<T>)
+		- 제네릭 타입 : 타입을 파라미터로 가지는 클래스와 인터페이스
+		- 클래스를 설계할 때 구체적인 타입을 명시하지 않고, 타입 파라미터로 대체했다가
+		  실제 클래스가 사용될 대 구체적인 타입을 지정함으로써 타입 변환을 최소화 시킨다.
+		참고) studyGenericType.GenericTypeBox.java
+			 studyGenericType.GenericTypeBoxExample.java
